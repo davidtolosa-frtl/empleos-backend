@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import avisoRoutes from './routes/avisoRoutes.js';
 import empresaRoutes from './routes/empresaRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 import { errorHandler, notFound } from './middlewares/errorHandler.js';
 
 dotenv.config();
@@ -22,13 +23,15 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       avisos: '/api/avisos',
-      empresas: '/api/empresas'
+      empresas: '/api/empresas',
+      auth: '/api/auth'
     }
   });
 });
 
 app.use('/api/avisos', avisoRoutes);
 app.use('/api/empresas', empresaRoutes);
+app.use('/api/auth', authRoutes);
 
 // Manejo de errores
 app.use(notFound);

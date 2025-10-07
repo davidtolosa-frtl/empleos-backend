@@ -4,6 +4,15 @@ CREATE DATABASE avisos_empleos;
 -- Conectar a la base de datos
 \c avisos_empleos;
 
+-- Tabla de usuarios
+CREATE TABLE usuarios (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(200) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
 -- Tabla de empresas
 CREATE TABLE empresas (
   id SERIAL PRIMARY KEY,
@@ -29,12 +38,17 @@ CREATE TABLE avisos (
 );
 
 -- Índices para mejorar el rendimiento de las búsquedas
+CREATE INDEX idx_usuarios_email ON usuarios(email);
 CREATE INDEX idx_avisos_ubicacion ON avisos(ubicacion);
 CREATE INDEX idx_avisos_tipo_contrato ON avisos(tipo_contrato);
 CREATE INDEX idx_avisos_empresa_id ON avisos(empresa_id);
 CREATE INDEX idx_avisos_fecha_publicacion ON avisos(fecha_publicacion DESC);
 
 -- Datos de ejemplo
+INSERT INTO usuarios (email, password_hash) VALUES
+  ('admin@empresa.com', '$2a$10$YourHashedPasswordHere'),
+  ('usuario1@email.com', '$2a$10$YourHashedPasswordHere');
+
 INSERT INTO empresas (nombre, descripcion, website, email) VALUES
   ('TechCorp SA', 'Empresa de tecnología líder en desarrollo de software', 'https://techcorp.com', 'rrhh@techcorp.com'),
   ('InnovaIT', 'Consultora de IT especializada en soluciones cloud', 'https://innovait.com', 'contacto@innovait.com'),
